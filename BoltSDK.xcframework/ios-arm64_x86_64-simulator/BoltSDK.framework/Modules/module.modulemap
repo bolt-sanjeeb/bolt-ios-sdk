@@ -1,0 +1,11 @@
+framework module BoltSDK {
+  umbrella header "BoltSDK.h"
+
+  export *
+  module * { export * }
+}
+
+module BoltSDK.Swift {
+    header "BoltSDK-Swift.h"
+    requires objc
+}

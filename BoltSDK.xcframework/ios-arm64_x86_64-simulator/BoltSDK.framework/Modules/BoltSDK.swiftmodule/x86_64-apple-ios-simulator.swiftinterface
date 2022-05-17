@@ -1,0 +1,626 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.5.2 (swiftlang-1300.0.47.5 clang-1300.0.29.30)
+// swift-module-flags: -target x86_64-apple-ios12.1-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name BoltSDK
+import AVFoundation
+import Alamofire
+@_exported import BoltSDK
+import CFSDK
+import Combine
+import CoreBluetooth
+import CoreLocation
+import CryptoSwift
+import Foundation
+import Lottie
+import Realm
+import RealmSwift
+import Swift
+import SwiftDate
+import SwiftyJSON
+import SystemConfiguration
+import UIKit
+import _Concurrency
+public struct FeedbackRatingModel {
+  public var uniqueRating: Swift.Int
+  public var questions: [BoltSDK.FeedbackQuestionsDataModel]!
+}
+public struct FeedbackQuestionsDataModel {
+  public var questionId: Swift.String
+  public var question: Swift.String
+  public var questionType: Swift.String
+  public var options: [BoltSDK.FeedbackOptionsModel]!
+  public var productType: [Swift.String]
+}
+public struct FeedbackOptionsModel {
+  public var value: Swift.String
+  public var weight: Swift.Int
+}
+public enum BookingStatus : Swift.String {
+  case succsess
+  case fail
+  case pending
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct BookingResponse {
+  public var bookingMsg: BoltSDK.BookingStatus.RawValue
+  public var bookingId: Swift.String
+  public var isBookingDone: Swift.Bool
+}
+public protocol BookingResultDelegate {
+  func onBookingCompletion(bookingResponse: BoltSDK.BookingResponse)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class BookChargerManager : ObjectiveC.NSObject {
+  public static let bookingInstance: BoltSDK.BookChargerManager
+  public var scannedChargerData: BoltSDK.ScannedChargerData?
+  public var bookingDelegate: BoltSDK.BookingResultDelegate?
+  public var bookingPaymentType: BoltSDK.BookingEnvironment!
+  public func paybleAmoutToBolt(vehcileType: BoltSDK.VehicleType, timeDuration: Swift.Double, discountJson: SwiftyJSON.JSON? = JSON.null) -> (actualFare: Swift.Int, discount: Swift.Int, subscriptionDiscount: Swift.Int, finalFare: Swift.Int)
+  @objc deinit
+}
+extension BoltSDK.BookChargerManager {
+  public func postPaidBookingValidation() -> Swift.Bool
+  public func bookBoltCharger(bookingVehicleDetailsParams: (vehicleCompany: Swift.String, vehicleModel: Swift.String))
+  public func addEmailPhoneNumber(emailAddress: Swift.String, contact: Swift.String)
+}
+@_hasMissingDesignatedInitializers open class EventBus {
+  open class func post(_ name: Swift.String, sender: Any? = nil)
+  open class func post(_ name: Swift.String, sender: ObjectiveC.NSObject?)
+  open class func post(_ name: Swift.String, sender: Any? = nil, userInfo: [Swift.AnyHashable : Any]?)
+  open class func postToMainThread(_ name: Swift.String, sender: Any? = nil)
+  open class func postToMainThread(_ name: Swift.String, sender: ObjectiveC.NSObject?)
+  open class func postToMainThread(_ name: Swift.String, sender: Any? = nil, userInfo: [Swift.AnyHashable : Any]?)
+  @discardableResult
+  open class func on(_ target: Swift.AnyObject, name: Swift.String, sender: Any? = nil, queue: Foundation.OperationQueue?, handler: @escaping ((Foundation.Notification?) -> Swift.Void)) -> ObjectiveC.NSObjectProtocol
+  @discardableResult
+  open class func onMainThread(_ target: Swift.AnyObject, name: Swift.String, sender: Any? = nil, handler: @escaping ((Foundation.Notification?) -> Swift.Void)) -> ObjectiveC.NSObjectProtocol
+  @discardableResult
+  open class func onBackgroundThread(_ target: Swift.AnyObject, name: Swift.String, sender: Any? = nil, handler: @escaping ((Foundation.Notification?) -> Swift.Void)) -> ObjectiveC.NSObjectProtocol
+  open class func unregister(_ target: Swift.AnyObject)
+  open class func unregister(_ target: Swift.AnyObject, name: Swift.String)
+  @objc deinit
+}
+public class BoltUserData {
+  public init()
+  public func boltUserData() -> BoltSDK.BoltUserModel?
+  @objc deinit
+}
+public struct BoltLoginManager {
+  public init()
+  public func boltLogedIn() -> Swift.Bool
+  public func appIdentifier() -> Swift.String
+  public func loginWithBolt(UID: Swift.String, boltAppAccessToken: Swift.String, appIdentifier: Swift.String, userParams: Swift.Dictionary<Swift.String, Swift.String>, loginSuccess: @escaping (_ loginSuccess: Swift.Bool, _ statusCode: Swift.String) -> Swift.Void)
+  public func registerBoltUser(UID: Swift.String, boltAppAccessToken: Swift.String, appIdentifier: Swift.String, userParams: Swift.Dictionary<Swift.String, Swift.String>, registrationSuccess: @escaping (_ success: Swift.Bool, _ statusCode: Swift.String) -> Swift.Void)
+  public func updateBoltUserProfile(updateProfileParams: [Swift.String : Any]?, updatedProfileSuccess: @escaping (_ success: Swift.Bool, _ statusCode: Swift.String) -> Swift.Void)
+}
+@objc @_inheritsConvenienceInitializers public class BoltSdkNavigation : ObjectiveC.NSObject {
+  public static let navigationInstance: BoltSDK.BoltSdkNavigation
+  @objc override dynamic public init()
+  public var sdkNavigation: UIKit.UINavigationController!
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers final public class Connectivity {
+  public static func isConnectedToInternet() -> Swift.Bool
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class Handler {
+  @objc deinit
+}
+extension BoltSDK.BoltWebServiceManager {
+  public func getChargerLocatondetails(latitude: Swift.String, longitude: Swift.String, completion: @escaping (_ success: Swift.Bool, _ data: SwiftyJSON.JSON) -> Swift.Void)
+}
+public struct BoltWebServiceManager {
+  public init()
+  public var activeBookingCharger: BoltSDK.BoltActiveBookingManger
+  public var syncChargerManager: BoltSDK.BoltSyncChargerManger
+  public var endPostPaidBookingCharger: BoltSDK.BoltActiveBookingManger
+}
+extension BoltSDK.BoltWebServiceManager {
+  public func createBoltWallet(completion: @escaping (_ success: Swift.Bool, _ walletDetails: BoltSDK.WalletDetails) -> Swift.Void)
+  public func boltWalletDetails(completion: @escaping (_ success: Swift.Bool, _ walletDetails: BoltSDK.WalletDetails) -> Swift.Void)
+  public func addWalletMoney(walletParams: Swift.Dictionary<Swift.String, Any>, completion: @escaping (_ success: Swift.Bool) -> Swift.Void)
+  public func getWalletTransactions(completion: @escaping (_ success: Swift.Bool, _ walletHistory: [BoltSDK.WalletTransaction]) -> Swift.Void)
+  public func boltRefundRequest(walletParams: Swift.Dictionary<Swift.String, Any>, completion: @escaping (_ success: Swift.Bool, _ data: SwiftyJSON.JSON) -> Swift.Void)
+  public func boltWithdrawalWalletMoneyRequest(walletParams: Swift.Dictionary<Swift.String, Any>, completion: @escaping (_ success: Swift.Bool, _ withdrawRequest: BoltSDK.WithdrawalRequest) -> Swift.Void)
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class EndBookingFareVC : UIKit.UIViewController {
+  @_Concurrency.MainActor(unsafe) public var bookingDataModel: BoltSDK.BookingDataModel!
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+extension BoltSDK.EndBookingFareVC : UIKit.UITableViewDataSource, UIKit.UITableViewDelegate {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func numberOfSections(in tableView: UIKit.UITableView) -> Swift.Int
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func tableView(_ tableView: UIKit.UITableView, numberOfRowsInSection section: Swift.Int) -> Swift.Int
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func tableView(_ tableView: UIKit.UITableView, cellForRowAt indexPath: Foundation.IndexPath) -> UIKit.UITableViewCell
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func tableView(_ tableView: UIKit.UITableView, didSelectRowAt indexPath: Foundation.IndexPath)
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func tableView(_ tableView: UIKit.UITableView, viewForHeaderInSection section: Swift.Int) -> UIKit.UIView?
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func tableView(_ tableView: UIKit.UITableView, heightForHeaderInSection section: Swift.Int) -> CoreGraphics.CGFloat
+}
+public protocol BoltDFUManagerDelegate : AnyObject {
+  func dfuStateDidChange(state: BoltSDK.BoltDFUManager.BoltDFUState)
+  func dfuProgressDidChange(progress: Swift.Double)
+  func dfuError(_ error: Swift.Error)
+  func isChargerAuthenticated(flag: Swift.Bool)
+}
+public class BoltDFUManager {
+  public enum BoltDFUState {
+    case bluetoothOff
+    case disconnected
+    case connecting
+    case connected
+    case downloading
+    case starting
+    case enablingDfuMode
+    case uploading
+    case validating
+    case completed
+    case failed
+    public static func == (a: BoltSDK.BoltDFUManager.BoltDFUState, b: BoltSDK.BoltDFUManager.BoltDFUState) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public var dfuState: BoltSDK.BoltDFUManager.BoltDFUState
+  weak public var delegate: BoltSDK.BoltDFUManagerDelegate?
+  public init(charger: BoltSDK.BoltChargerData)
+  public func initiateFirmwareUpdate()
+  @objc deinit
+}
+public struct WalletTransaction {
+  public var id: Swift.String
+  public var orderId: Swift.String
+  public var refundId: Swift.String
+  public var withdrawalId: Swift.String
+  public var category: Swift.String
+  public var customerId: Swift.String
+  public var amount: Swift.Int
+  public var timestamp: Swift.String
+  public var type: Swift.String
+  public var status: Swift.String
+  public init(result: SwiftyJSON.JSON)
+}
+public struct WalletDetails {
+  public var id: Swift.String
+  public var walletBalance: Swift.Int
+  public var customerId: Swift.String
+  public var walletStatus: Swift.String
+  public var walletStatusCode: Swift.Int
+  public init(result: SwiftyJSON.JSON)
+}
+public struct WithdrawalRequest {
+  public var id: Swift.String
+  public var customerId: Swift.String
+  public var type: Swift.String
+  public var status: Swift.String
+  public var amount: Swift.Int
+  public var timestamp: Swift.String
+  public init(result: SwiftyJSON.JSON)
+}
+public struct BoltUserModel : Swift.Codable {
+  public var firstName: Swift.String?
+  public var lastName: Swift.String?
+  public var userEmail: Swift.String?
+  public var dob: Swift.String?
+  public var phone: Swift.String?
+  public var gender: Swift.String?
+  public var custromerID: Swift.String?
+  public var emailVerified: Swift.Bool
+  public var phoneVerified: Swift.Bool
+  public init(firstName: Swift.String, lastName: Swift.String, userEmail: Swift.String, dob: Swift.String, gender: Swift.String, phone: Swift.String, custromerID: Swift.String, phoneVerified: Swift.Bool, emailVerified: Swift.Bool)
+  public func encode(to encoder: Swift.Encoder) throws
+  public init(from decoder: Swift.Decoder) throws
+}
+public class BoltActiveBookingManger {
+  public init()
+  public func activeBookingViewController(activeBookigId: Swift.String)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) open class SearchChargerController : UIKit.UIViewController {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+extension BoltSDK.SearchChargerController {
+  @objc @_Concurrency.MainActor(unsafe) dynamic open func boltChargerSearchStatus(isFound: Swift.Bool = false, isOwner: Swift.Bool = false)
+}
+extension BoltSDK.SearchChargerController {
+  @_Concurrency.MainActor(unsafe) public func connectWithBoltCharger(sharedID: Swift.String)
+}
+extension UIKit.UILabel {
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func draw(_ rect: CoreGraphics.CGRect)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open var intrinsicContentSize: CoreGraphics.CGSize {
+    @_Concurrency.MainActor(unsafe) @objc get
+  }
+}
+extension Swift.Double {
+  public func rounded(to places: Swift.Int) -> Swift.Double
+}
+public protocol CustomStringConvertible {
+  var description: Swift.String { get }
+}
+extension BoltSDK.BoltWebServiceManager {
+  public func getChargerKYCAPI(chargerID: Swift.String, completion: @escaping (_ success: Swift.Bool, _ kycDataResponse: BoltSDK.KYCModel) -> Swift.Void)
+  public func uploadChargerKYCAPI(_ productImage: UIKit.UIImage?, _ supportImages: [UIKit.UIImage]?, chargerID: Swift.String, KYCType: BoltSDK.KYCUpload = .NewKYC, completion: @escaping (_ success: Swift.Bool, _ kycResponse: BoltSDK.KYCModel, _ uploadProcess: Swift.Double) -> Swift.Void)
+}
+public enum KYCUpload : Swift.String {
+  case NewKYC
+  case UpdateKYC
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum ChargerType : Swift.String {
+  case freeCharger, paidCharger, privateCharger, restrictedPaid, restrictedFree
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum StationType : Swift.String {
+  case HomeCharger
+  case PublicStation
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum ChargerModel : Swift.String {
+  case modelID_BOLT_16A_LITE
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum BookingEnvironment : Swift.String {
+  case postPaidBooking
+  case prePaidBooking
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum KYCStatus : Swift.String {
+  case Rejected
+  case Done
+  case Processing
+  case NotDone
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum VehicleType : Swift.String {
+  case notSelected
+  case wheelers_2
+  case wheelers_3
+  case wheelers_4
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+extension BoltSDK.BoltWebServiceManager {
+  public func FeedbackRatingSubmit(feedbackParams: [Swift.String : Any], completion: @escaping (_ success: Swift.Bool) -> Swift.Void)
+  public func GetFeedbackQuestion(completion: @escaping (_ success: Swift.Bool, _ feedbackQuestions: [BoltSDK.FeedbackRatingModel]) -> Swift.Void)
+}
+public protocol BoltChargerActivationManagerDelegate : AnyObject {
+  func notifyChargerAvailability(isAvailable: Swift.Bool, msg: Swift.String)
+  func notifyChargerConnected()
+  func notifyFailedChargerConnection()
+  func bluetoothOFF()
+}
+public class BoltChargerActivationManager {
+  public enum BoltChargerConnectionState {
+    case bluetoothOff
+    case disconnected
+    case connecting
+    case connected(macId: Swift.String)
+  }
+  weak public var delegate: BoltSDK.BoltChargerActivationManagerDelegate?
+  public init()
+  public func fetchCharger(boltUID: Swift.String, response: @escaping BoltSDK.ResponseBlock<BoltSDK.BoltChargerData>)
+  public func scanForAvailableCharger()
+  public func disconnectCharger()
+  public func cleanup()
+  public func stopScan()
+  public func registerCharger(chargerUid: Swift.String, chargerParams: [Swift.String : Any], status: @escaping BoltSDK.StatusBlock)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class BoltUserLoggedIn : ObjectiveC.NSObject {
+  public var boltUser_LoginStatus: Swift.Bool {
+    get
+    set
+  }
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class Indicator {
+  public static let sharedInstance: BoltSDK.Indicator
+  @objc deinit
+}
+extension BoltSDK.BoltWebServiceManager {
+  public func getAvailableChargers(leftCoordinate: (Swift.Double, Swift.Double), rightCoordinate: (Swift.Double, Swift.Double), completion: @escaping (_ success: Swift.Bool, _ boltChargers: [BoltSDK.BoltChargers]) -> Swift.Void)
+  public func getNearByAvailableChargers(latLng: (Swift.Double, Swift.Double), completion: @escaping (_ success: Swift.Bool, _ nearByBoltChargers: [BoltSDK.BoltChargers]) -> Swift.Void)
+  public func activeBookingsFetch(completion: @escaping (_ activeBookings: [BoltSDK.BookingDataModel]) -> Swift.Void)
+  public func getPendingPaymentBooking(completion: @escaping (_ success: Swift.Bool, _ pendingBooking: BoltSDK.BookingDataModel) -> Swift.Void)
+}
+public struct Earnings {
+  public var id: Swift.String
+  public var asset: BoltSDK.Assets?
+  public var startTime: Swift.String
+  public var endTime: Swift.String
+  public var amount: Swift.Double
+  public var leaseeName: Swift.String
+  public var leaseContact: Swift.String
+  public var leaseeConsumption: Swift.Double
+  public var leasorCost: Swift.Double
+  public var clearanceStatus: Swift.String
+  public var upi: Swift.String
+  public var vendor: BoltSDK.Vendor?
+}
+public struct Assets {
+  public var UID: Swift.String
+  public var syncComplete: Swift.Bool
+  public init(result: SwiftyJSON.JSON)
+}
+public struct Vendor {
+  public var name: Swift.String
+}
+extension BoltSDK.BoltWebServiceManager {
+  public func getMyChargersList(completion: @escaping (_ success: Swift.Bool, _ data: [BoltSDK.MyChargers]) -> Swift.Void)
+  public func getMyBoltChargerDetails(boltUID: Swift.String, completion: @escaping (_ success: Swift.Bool, _ boltChargerData: BoltSDK.MyChargers?) -> Swift.Void)
+  public func updateChargerDetails(boltUID: Swift.String, chargerType: BoltSDK.ChargerType = .privateCharger, chargerParams: Swift.Dictionary<Swift.String, Any>, completion: @escaping (_ isUpdated: Swift.Bool) -> Swift.Void)
+  public func getChrgerDetailsByID(boltUID: Swift.String, completion: @escaping (_ success: Swift.Bool, _ boltChargerData: BoltSDK.BoltChargers?) -> Swift.Void)
+}
+@_hasMissingDesignatedInitializers public class Downloader {
+  @objc deinit
+}
+public enum Status {
+  case success
+  case error(value: Swift.Error)
+  public func callBlocks(error errorBlock: (Swift.Error) -> (), successblock: () throws -> ())
+}
+public typealias StatusBlock = (BoltSDK.Status) -> ()
+public enum Response<T> {
+  case object(value: T)
+  case error(value: Swift.Error)
+  public func callBlocks(error errorBlock: (Swift.Error) -> (), successblock: (T) throws -> ())
+}
+public typealias ResponseBlock<T> = (BoltSDK.Response<T>) -> ()
+public typealias BoltChargers = BoltSDK.ChargerDetails
+public typealias ChargerData = BoltSDK.ChargerDetails
+public typealias ScannedChargerData = BoltSDK.ChargerDetails
+public typealias MyChargers = BoltSDK.ChargerDetails
+public typealias BoltChargerData = BoltSDK.ChargerDetails
+public struct BookingDataModel {
+  public let booking: BoltSDK.Booking
+  public var chargerDetails: BoltSDK.ChargerDetails
+}
+public struct Booking {
+  public let bookingId: Swift.String, bookingTime: Swift.String, bookingStatus: Swift.String, bookingType: Swift.String, customerName: Swift.String
+  public let bookingStart: Swift.String, bookingEnd: Swift.String
+  public let bookingDuration: Swift.Double
+  public let amount: Swift.Int, userRating: Swift.Int
+  public let paymentStatus: Swift.String, paymentType: Swift.String, vendorSplit: Swift.String, cftoken: Swift.String
+  public let energyConsumed: Swift.Double
+  public let transactionId: Swift.String
+  public let userFeedback: Swift.Bool
+}
+public struct ChargerDetails {
+  public var charger: BoltSDK.Charger
+  public var availability: BoltSDK.Availability
+  public var paymentDetails: BoltSDK.PaymentDetails
+  public var otaStatus: Swift.String
+  public var station: BoltSDK.Station
+  public var incharge: BoltSDK.Incharge
+  public let chargerType: BoltSDK.ChargerTypeModel
+}
+public struct ChargerTypeModel {
+  public let modelName: Swift.String, modelId: Swift.String, manufacturerName: Swift.String
+  public let mode: Swift.String, communicationProtocol: Swift.String, connectorType: Swift.String
+  public let powerRating: BoltSDK.UnitValueModel
+  public let current: BoltSDK.UnitValueModel, voltage: BoltSDK.UnitValueModel
+}
+public struct UnitValueModel {
+}
+public struct Availability {
+  public var twentyFourSeven: Swift.Bool
+  public var days: [BoltSDK.Day]
+  public var timeZone: Swift.String
+}
+public struct Day {
+  public var id: Swift.String
+  public var day: Swift.Int
+  public var fromTime: Swift.String, toTime: Swift.String
+}
+public struct Charger {
+  public var chargerId: Swift.String, chargerName: Swift.String, chargerHealth: Swift.String
+  public let modelId: Swift.String
+  public var usageType: Swift.String
+  public var chargerStatus: Swift.String
+  public var vehicleType: [Swift.String]
+  public var restrictedFlag: Swift.String, kycStatus: Swift.String, lastPing: Swift.String
+  public var isRupeeCharger: Swift.Bool
+  public var availableAfter: Swift.String?
+  public var kycImages: [Swift.String]
+}
+public struct Incharge {
+  public var name: Swift.String, email: Swift.String, phoneNumber: Swift.String
+}
+public struct PaymentDetails {
+  public var acceptedPaymentModes: [Swift.String]
+  public var paymentMethodId: Swift.String
+  public var baseAmount: Swift.Int, chargePerHour: Swift.Int, costPerkWh: Swift.Int
+  public var currency: Swift.String
+  public var tariffMode: Swift.String
+  public var bankDetails: BoltSDK.BankDetailsModel
+}
+public struct BankDetailsModel {
+  public var _id: Swift.String
+  public var bankName: Swift.String, bankAccount: Swift.String, accountHolder: Swift.String, ifsc: Swift.String
+}
+public struct Station {
+  public var stationName: Swift.String, stationId: Swift.String, address: Swift.String, city: Swift.String
+  public var district: Swift.String, state: Swift.String, country: Swift.String, postalCode: Swift.String
+  public var location: BoltSDK.Location
+}
+public struct Location {
+  public var latitude: Swift.Double, longitude: Swift.Double
+}
+extension BoltSDK.BoltWebServiceManager {
+  public func getChargerBookingHistory(Orderby: Swift.String?, chargerID: Swift.String?, completion: @escaping (_ success: Swift.Bool, _ bookingHistory: [BoltSDK.BookingDataModel]) -> Swift.Void)
+  public func getEarnings(Orderby: Swift.String?, chargerID: Swift.String?, completion: @escaping (_ success: Swift.Bool, _ earninsgHistory: [BoltSDK.BookingDataModel]) -> Swift.Void)
+}
+extension BoltSDK.BoltWebServiceManager {
+  public func isRupeeCharger(chargerUid: Swift.String, response: @escaping BoltSDK.ResponseBlock<Swift.Bool>)
+}
+public struct EevntNotification {
+  public static var FeedbackRating: Swift.String
+}
+extension BoltSDK.BoltWebServiceManager {
+  public func AccountMergerAPI(accountLinkParams: Swift.Dictionary<Swift.String, Swift.String>, completion: @escaping (_ success: Swift.Bool, _ statusCode: Swift.String, _ message: Swift.String) -> Swift.Void)
+  public func OTPVerifyAccountMergerAPI(accountParams: [Swift.String : Swift.String], completion: @escaping (_ success: Swift.Bool, _ statusCode: Swift.String, _ message: Swift.String) -> Swift.Void)
+  public func SendOTPVerifyAccountMergerAPI(otpParams: [Swift.String : Swift.String], completion: @escaping (_ success: Swift.Bool, _ statusCode: Swift.String, _ message: Swift.String) -> Swift.Void)
+  public func ResendOTPVerifyAccountMergerAPI(otpParams: [Swift.String : Swift.String], completion: @escaping (_ success: Swift.Bool, _ statusCode: Swift.String, _ message: Swift.String) -> Swift.Void)
+}
+public protocol BoltSyncChargerMangerDelegate {
+  func syncCompleted(isSuccess: Swift.Bool, message: Swift.String)
+}
+public struct BoltSyncChargerManger {
+  public init()
+  public var delegate: BoltSDK.BoltSyncChargerMangerDelegate?
+  public func syncCharger(chargerId: Swift.String)
+  public func getSyncedChargerInfo(chargerUid: Swift.String, response: @escaping BoltSDK.ResponseBlock<BoltSDK.BoltChargerData>)
+}
+extension BoltSDK.BoltWebServiceManager {
+  public func getRegisteredBankAccountList(completion: @escaping (_ bankAccountDetails: [BoltSDK.PaymentAccountDetails]) -> Swift.Void)
+  public func bankAccountSubmit(bankAccountParms: Swift.Dictionary<Swift.String, Swift.String>, completion: @escaping (_ success: Swift.Bool, _ message: Swift.String, _ statusCode: Swift.Int) -> Swift.Void)
+  public func bankAccountDelete(paymentAccountId: Swift.String, completion: @escaping (_ success: Swift.Bool) -> Swift.Void)
+}
+public struct PaymentAccountDetails {
+  public var stage: Swift.String
+  public var name: Swift.String
+  public var updatedAt: Swift.String
+  public var service: Swift.String
+  public var id: Swift.String
+  public var status: Swift.String
+  public var createdAt: Swift.String
+  public var address: Swift.String
+  public var type: Swift.String
+  public var bankDetails: BoltSDK.BankDetails?
+  public var contactInfo: BoltSDK.ContactInfo?
+  public init(result: SwiftyJSON.JSON)
+}
+public struct BankDetails {
+  public var updatedAt: Swift.String
+  public var bankName: Swift.String
+  public var bankAccount: Swift.String
+  public var id: Swift.String
+  public var accountHolder: Swift.String
+  public var createdAt: Swift.String
+  public var ifsc: Swift.String
+  public init(result: SwiftyJSON.JSON)
+}
+public struct ContactInfo {
+  public var city: Swift.String
+  public var name: Swift.String
+  public var updatedAt: Swift.String
+  public var email: Swift.String
+  public var state: Swift.String
+  public var address2: Swift.String
+  public var id: Swift.String
+  public var address1: Swift.String
+  public var createdAt: Swift.String
+  public var panNo: Swift.String
+  public var gstin: Swift.String
+  public var aadharNo: Swift.String
+  public var pincode: Swift.String
+  public var phone: Swift.String
+  public init(result: SwiftyJSON.JSON)
+}
+extension BoltSDK.BoltWebServiceManager {
+  public func GetVheicleMakeModelList(completion: @escaping (_ success: Swift.Bool, _ vehcileMakeModel: [BoltSDK.VehicleMakeModel]) -> Swift.Void)
+}
+public struct VehicleMakeModel {
+  public var id: Swift.String
+  public var type: Swift.String
+  public var model: Swift.String
+  public var company: Swift.String
+  public var leaseContact: Swift.String
+  public var companyModel: Swift.String
+}
+@_hasMissingDesignatedInitializers public class Wrapper<T> {
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class BoltAppBundle {
+  @objc deinit
+}
+public struct KYCModel {
+  public var product: BoltSDK.KycProductModel!
+  public var documents: [BoltSDK.DocumentsModel]!
+  public var status: Swift.Int
+  public var message: Swift.Int
+  public init(result: SwiftyJSON.JSON)
+}
+public struct KycProductModel {
+  public var productId: Swift.String, type: Swift.String, registrantId: Swift.String, companyId: Swift.String, status: Swift.String, createdAt: Swift.String, updatedAt: Swift.String, remark: Swift.String
+  public var approved: Swift.Bool
+  public var deleted: Swift.Bool
+  public var _id: Swift.String
+  public init(result: SwiftyJSON.JSON)
+}
+public struct DocumentsModel {
+  public var name: Swift.String
+  public var key: Swift.String
+  public var type: Swift.String
+  public var productId: Swift.String
+  public var deleted: Swift.Bool
+  public var _id: Swift.String
+  public var createdAt: Swift.String
+  public var updatedAt: Swift.String
+  public var url: Swift.String
+  public init(result: SwiftyJSON.JSON)
+}
+extension BoltSDK.BoltWebServiceManager {
+  public func getBoltCoupon(completion: @escaping (_ success: Swift.Bool, _ data: SwiftyJSON.JSON) -> Swift.Void)
+  public func getBoltSubscriptions(completion: @escaping (_ success: Swift.Bool, _ data: SwiftyJSON.JSON) -> Swift.Void)
+}
+extension BoltSDK.BookingStatus : Swift.Equatable {}
+extension BoltSDK.BookingStatus : Swift.Hashable {}
+extension BoltSDK.BookingStatus : Swift.RawRepresentable {}
+extension BoltSDK.BoltDFUManager.BoltDFUState : Swift.Equatable {}
+extension BoltSDK.BoltDFUManager.BoltDFUState : Swift.Hashable {}
+extension BoltSDK.KYCUpload : Swift.Equatable {}
+extension BoltSDK.KYCUpload : Swift.Hashable {}
+extension BoltSDK.KYCUpload : Swift.RawRepresentable {}
+extension BoltSDK.ChargerType : Swift.Equatable {}
+extension BoltSDK.ChargerType : Swift.Hashable {}
+extension BoltSDK.ChargerType : Swift.RawRepresentable {}
+extension BoltSDK.StationType : Swift.Equatable {}
+extension BoltSDK.StationType : Swift.Hashable {}
+extension BoltSDK.StationType : Swift.RawRepresentable {}
+extension BoltSDK.ChargerModel : Swift.Equatable {}
+extension BoltSDK.ChargerModel : Swift.Hashable {}
+extension BoltSDK.ChargerModel : Swift.RawRepresentable {}
+extension BoltSDK.BookingEnvironment : Swift.Equatable {}
+extension BoltSDK.BookingEnvironment : Swift.Hashable {}
+extension BoltSDK.BookingEnvironment : Swift.RawRepresentable {}
+extension BoltSDK.KYCStatus : Swift.Equatable {}
+extension BoltSDK.KYCStatus : Swift.Hashable {}
+extension BoltSDK.KYCStatus : Swift.RawRepresentable {}
+extension BoltSDK.VehicleType : Swift.Equatable {}
+extension BoltSDK.VehicleType : Swift.Hashable {}
+extension BoltSDK.VehicleType : Swift.RawRepresentable {}

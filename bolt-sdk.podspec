@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "bolt-sdk"
-  spec.version      = "1.0.5"
+  spec.version      = "1.0.6"
   spec.summary      = "Cocoapods implementation of REVOS's BOLT-SDK."
   spec.description  = <<-DESC
   The REVOS's BoltSDK manages all the Bolt charger related booking apis.
@@ -23,4 +23,6 @@ Pod::Spec.new do |spec|
   spec.dependency 'CryptoSwift', '~> 1.4'
   spec.dependency 'SwiftDate', '~> 6.3'
   spec.dependency 'RealmSwift', '~>10'
+  spec.dependency 'Alamofire', '~> 5.6'
+
 end
